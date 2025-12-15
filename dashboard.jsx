@@ -1260,6 +1260,584 @@ const OwnerExplanationModule = () => {
     );
 };
 
+// Employee Interview Module - Smart Questionnaire
+const EmployeeInterviewModule = () => {
+    const [stage, setStage] = useState('intro'); // intro, department, questions, complete
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [answers, setAnswers] = useState({});
+    const [currentCategory, setCurrentCategory] = useState(0);
+
+    const departmentOptions = [
+        { id: 'operations', name: 'תפעול / סוכנות אוניות', icon: 'Anchor', color: '#1a365d' },
+        { id: 'finance', name: 'כספים', icon: 'DollarSign', color: '#234876' },
+        { id: 'accounting', name: 'הנהלת חשבונות', icon: 'Calculator', color: '#2d5a8f' },
+        { id: 'projects', name: 'פרויקטים', icon: 'FolderKanban', color: '#4a7ab5' },
+    ];
+
+    const questionCategories = [
+        { id: 'daily', name: 'עבודה יומיומית', icon: 'Clock' },
+        { id: 'tools', name: 'כלים ומערכות', icon: 'Settings' },
+        { id: 'pain', name: 'נקודות כאב', icon: 'Zap' },
+        { id: 'wishes', name: 'מה היית רוצה', icon: 'Lightbulb' },
+    ];
+
+    const baseQuestions = [
+        // Daily Work - Category 0
+        {
+            category: 0,
+            question: 'כמה זמן ביום את/ה מקדיש/ה לעבודה על אקסלים?',
+            type: 'single',
+            options: [
+                { value: 'none', label: 'כמעט לא', emoji: '😊' },
+                { value: 'low', label: 'עד שעה', emoji: '📊' },
+                { value: 'medium', label: '1-3 שעות', emoji: '📈' },
+                { value: 'high', label: 'יותר מ-3 שעות', emoji: '😓' },
+            ],
+        },
+        {
+            category: 0,
+            question: 'כמה מיילים את/ה מטפל/ת ביום בממוצע?',
+            type: 'single',
+            options: [
+                { value: 'low', label: 'עד 20', emoji: '📧' },
+                { value: 'medium', label: '20-50', emoji: '📬' },
+                { value: 'high', label: '50-100', emoji: '📮' },
+                { value: 'very_high', label: 'מעל 100', emoji: '🌊' },
+            ],
+        },
+        {
+            category: 0,
+            question: 'באיזו תדירות את/ה מעתיק/ה נתונים ממערכת אחת לאחרת?',
+            type: 'single',
+            options: [
+                { value: 'rarely', label: 'לעיתים רחוקות', emoji: '🌙' },
+                { value: 'weekly', label: 'כמה פעמים בשבוע', emoji: '📅' },
+                { value: 'daily', label: 'כל יום', emoji: '🔄' },
+                { value: 'multiple', label: 'כמה פעמים ביום', emoji: '😤' },
+            ],
+        },
+        // Tools & Systems - Category 1
+        {
+            category: 1,
+            question: 'באילו מערכות את/ה עובד/ת? (אפשר לבחור כמה)',
+            type: 'multiple',
+            options: [
+                { value: 'erp', label: 'מערכת ERP', emoji: '🏢' },
+                { value: 'excel', label: 'אקסל', emoji: '📊' },
+                { value: 'email', label: 'אאוטלוק/מייל', emoji: '📧' },
+                { value: 'port', label: 'פורטל הנמל', emoji: '⚓' },
+                { value: 'whatsapp', label: 'וואטסאפ', emoji: '💬' },
+                { value: 'other', label: 'אחר', emoji: '📱' },
+            ],
+        },
+        {
+            category: 1,
+            question: 'איך היית מדרג/ת את רמת הנוחות שלך עם המערכות הנוכחיות?',
+            type: 'single',
+            options: [
+                { value: 'great', label: 'מצוין, הכל עובד', emoji: '🌟' },
+                { value: 'ok', label: 'בסדר, מסתדר/ת', emoji: '👍' },
+                { value: 'difficult', label: 'קשה לפעמים', emoji: '😕' },
+                { value: 'frustrating', label: 'מתסכל', emoji: '😫' },
+            ],
+        },
+        // Pain Points - Category 2
+        {
+            category: 2,
+            question: 'מה הדבר שהכי מבזבז לך זמן בעבודה?',
+            type: 'single',
+            options: [
+                { value: 'data_entry', label: 'הקלדת נתונים ידנית', emoji: '⌨️' },
+                { value: 'searching', label: 'חיפוש מידע', emoji: '🔍' },
+                { value: 'reports', label: 'הכנת דוחות', emoji: '📋' },
+                { value: 'coordination', label: 'תיאומים ותקשורת', emoji: '📞' },
+                { value: 'approvals', label: 'המתנה לאישורים', emoji: '⏳' },
+            ],
+        },
+        {
+            category: 2,
+            question: 'באיזו תדירות קורות טעויות שנגרמות מעבודה ידנית?',
+            type: 'single',
+            options: [
+                { value: 'never', label: 'כמעט אף פעם', emoji: '✨' },
+                { value: 'rarely', label: 'לעיתים רחוקות', emoji: '🎯' },
+                { value: 'sometimes', label: 'מדי פעם', emoji: '🤔' },
+                { value: 'often', label: 'יותר מדי', emoji: '😰' },
+            ],
+        },
+        {
+            category: 2,
+            question: 'האם יש פעולות שאת/ה עושה יותר מפעם ביום ומרגישות מיותרות?',
+            type: 'single',
+            options: [
+                { value: 'no', label: 'לא באמת', emoji: '😌' },
+                { value: 'few', label: 'כמה דברים קטנים', emoji: '🤏' },
+                { value: 'several', label: 'כמה דברים משמעותיים', emoji: '📝' },
+                { value: 'many', label: 'הרבה מאוד', emoji: '😩' },
+            ],
+        },
+        // Wishes - Category 3
+        {
+            category: 3,
+            question: 'אם היית יכול/ה לבטל משימה אחת מהיום שלך, מה זה היה?',
+            type: 'single',
+            options: [
+                { value: 'copy_paste', label: 'העתקת נתונים בין מערכות', emoji: '📋' },
+                { value: 'manual_reports', label: 'הכנת דוחות ידנית', emoji: '📊' },
+                { value: 'email_sorting', label: 'מיון מיילים', emoji: '📧' },
+                { value: 'reminders', label: 'לזכור לעקוב אחרי דברים', emoji: '🔔' },
+                { value: 'status_updates', label: 'עדכוני סטטוס', emoji: '📢' },
+            ],
+        },
+        {
+            category: 3,
+            question: 'מה היה עוזר לך הכי הרבה?',
+            type: 'single',
+            options: [
+                { value: 'auto_reports', label: 'דוחות שמתעדכנים לבד', emoji: '🤖' },
+                { value: 'reminders', label: 'תזכורות אוטומטיות', emoji: '⏰' },
+                { value: 'integrations', label: 'שמערכות ידברו אחת עם השנייה', emoji: '🔗' },
+                { value: 'less_email', label: 'פחות מיילים', emoji: '📭' },
+            ],
+        },
+    ];
+
+    // Filter questions and get current
+    const questions = baseQuestions;
+    const totalQuestions = questions.length;
+    const currentQuestion = questions[currentQuestionIndex];
+    const progress = totalQuestions > 0 ? ((currentQuestionIndex) / totalQuestions) * 100 : 0;
+    const questionsInCategory = questions.filter(q => q.category === currentCategory).length;
+    const answeredInCategory = Object.keys(answers).filter(key => {
+        const qIndex = parseInt(key);
+        return questions[qIndex]?.category === currentCategory;
+    }).length;
+
+    const handleAnswer = (value) => {
+        const questionKey = currentQuestionIndex.toString();
+
+        if (currentQuestion.type === 'multiple') {
+            const currentAnswers = answers[questionKey] || [];
+            const newAnswers = currentAnswers.includes(value)
+                ? currentAnswers.filter(v => v !== value)
+                : [...currentAnswers, value];
+            setAnswers({ ...answers, [questionKey]: newAnswers });
+        } else {
+            setAnswers({ ...answers, [questionKey]: value });
+            // Auto-advance for single choice
+            setTimeout(() => {
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    const nextQuestion = questions[currentQuestionIndex + 1];
+                    if (nextQuestion.category !== currentCategory) {
+                        setCurrentCategory(nextQuestion.category);
+                    }
+                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                } else {
+                    setStage('complete');
+                }
+            }, 300);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentQuestionIndex < totalQuestions - 1) {
+            const nextQuestion = questions[currentQuestionIndex + 1];
+            if (nextQuestion.category !== currentCategory) {
+                setCurrentCategory(nextQuestion.category);
+            }
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            setStage('complete');
+        }
+    };
+
+    const handleBack = () => {
+        if (currentQuestionIndex > 0) {
+            const prevQuestion = questions[currentQuestionIndex - 1];
+            if (prevQuestion.category !== currentCategory) {
+                setCurrentCategory(prevQuestion.category);
+            }
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    };
+
+    const resetSurvey = () => {
+        setStage('intro');
+        setSelectedDepartment(null);
+        setCurrentQuestionIndex(0);
+        setAnswers({});
+        setCurrentCategory(0);
+    };
+
+    // Intro Screen
+    if (stage === 'intro') {
+        return (
+            <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+                <div style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '20px',
+                    background: 'linear-gradient(135deg, #1a365d 0%, #2d5a8f 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 24px',
+                }}>
+                    <Icons.MessageCircle size={40} />
+                </div>
+                <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#1e293b', marginBottom: '16px' }}>
+                    שאלון קצר על העבודה היומיומית
+                </h2>
+                <p style={{ fontSize: '16px', color: '#6b7280', lineHeight: '1.7', marginBottom: '32px' }}>
+                    השאלון הזה יעזור לנו להבין איפה אפשר לחסוך לך זמן ולהקל על העבודה.
+                    <br />
+                    <strong style={{ color: '#1a365d' }}>לוקח בערך 3-5 דקות</strong>, והתשובות שלך חשובות מאוד.
+                </p>
+
+                <div style={{
+                    display: 'flex',
+                    gap: '16px',
+                    justifyContent: 'center',
+                    marginBottom: '32px',
+                    flexWrap: 'wrap',
+                }}>
+                    {[
+                        { icon: 'Clock', text: '3-5 דקות' },
+                        { icon: 'Shield', text: 'אנונימי' },
+                        { icon: 'Check', text: 'שאלות סגורות' },
+                    ].map((item, i) => {
+                        const IconComponent = Icons[item.icon];
+                        return (
+                            <div key={i} style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '8px 16px',
+                                backgroundColor: '#f0f7fc',
+                                borderRadius: '20px',
+                                fontSize: '14px',
+                                color: '#1a365d',
+                            }}>
+                                {IconComponent && <IconComponent size={16} />}
+                                {item.text}
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <button
+                    onClick={() => setStage('department')}
+                    style={{
+                        padding: '16px 48px',
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        color: '#fff',
+                        backgroundColor: '#1a365d',
+                        border: 'none',
+                        borderRadius: '12px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                    }}
+                >
+                    בואו נתחיל
+                </button>
+            </div>
+        );
+    }
+
+    // Department Selection
+    if (stage === 'department') {
+        return (
+            <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+                <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1e293b', marginBottom: '8px', textAlign: 'center' }}>
+                    באיזו מחלקה את/ה עובד/ת?
+                </h2>
+                <p style={{ fontSize: '15px', color: '#6b7280', marginBottom: '32px', textAlign: 'center' }}>
+                    זה יעזור לנו להתאים את השאלות
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {departmentOptions.map((dept) => {
+                        const IconComponent = Icons[dept.icon];
+                        const isSelected = selectedDepartment === dept.id;
+                        return (
+                            <button
+                                key={dept.id}
+                                onClick={() => {
+                                    setSelectedDepartment(dept.id);
+                                    setTimeout(() => setStage('questions'), 300);
+                                }}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '16px',
+                                    padding: '20px 24px',
+                                    backgroundColor: isSelected ? dept.color : '#fff',
+                                    color: isSelected ? '#fff' : '#1e293b',
+                                    border: `2px solid ${isSelected ? dept.color : '#e5e7eb'}`,
+                                    borderRadius: '12px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    textAlign: 'right',
+                                }}
+                            >
+                                <div style={{
+                                    width: '48px',
+                                    height: '48px',
+                                    borderRadius: '10px',
+                                    backgroundColor: isSelected ? 'rgba(255,255,255,0.2)' : `${dept.color}15`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: isSelected ? '#fff' : dept.color,
+                                }}>
+                                    {IconComponent && <IconComponent size={24} />}
+                                </div>
+                                <span style={{ fontSize: '18px', fontWeight: '500' }}>{dept.name}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    // Questions
+    if (stage === 'questions' && currentQuestion) {
+        const CategoryIcon = Icons[questionCategories[currentCategory]?.icon];
+        const isMultiple = currentQuestion.type === 'multiple';
+        const currentAnswerValue = answers[currentQuestionIndex.toString()];
+
+        return (
+            <div style={{ maxWidth: '650px', margin: '0 auto' }}>
+                {/* Progress Header */}
+                <div style={{ marginBottom: '32px' }}>
+                    {/* Category Pills */}
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        {questionCategories.map((cat, index) => {
+                            const CatIcon = Icons[cat.icon];
+                            const isActive = index === currentCategory;
+                            const isPast = index < currentCategory;
+                            return (
+                                <div
+                                    key={cat.id}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '6px',
+                                        padding: '6px 12px',
+                                        borderRadius: '16px',
+                                        fontSize: '13px',
+                                        fontWeight: '500',
+                                        backgroundColor: isActive ? '#1a365d' : isPast ? '#d1fae5' : '#f3f4f6',
+                                        color: isActive ? '#fff' : isPast ? '#065f46' : '#6b7280',
+                                    }}
+                                >
+                                    {CatIcon && <CatIcon size={14} />}
+                                    {cat.name}
+                                    {isPast && <Icons.Check size={14} />}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div style={{
+                        height: '6px',
+                        backgroundColor: '#e5e7eb',
+                        borderRadius: '3px',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{
+                            height: '100%',
+                            width: `${progress}%`,
+                            backgroundColor: '#1a365d',
+                            borderRadius: '3px',
+                            transition: 'width 0.3s ease',
+                        }} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', fontSize: '13px', color: '#6b7280' }}>
+                        <span>שאלה {currentQuestionIndex + 1} מתוך {totalQuestions}</span>
+                        <span>נשאר עוד {totalQuestions - currentQuestionIndex - 1}</span>
+                    </div>
+                </div>
+
+                {/* Question Card */}
+                <div style={{
+                    backgroundColor: '#fff',
+                    borderRadius: '16px',
+                    border: '1px solid #e5e7eb',
+                    padding: '32px',
+                    marginBottom: '24px',
+                }}>
+                    <h3 style={{
+                        fontSize: '22px',
+                        fontWeight: '600',
+                        color: '#1e293b',
+                        marginBottom: '24px',
+                        lineHeight: '1.5',
+                    }}>
+                        {currentQuestion.question}
+                    </h3>
+
+                    {isMultiple && (
+                        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '16px' }}>
+                            אפשר לבחור כמה תשובות
+                        </p>
+                    )}
+
+                    {/* Options Grid */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: currentQuestion.options.length > 4 ? '1fr 1fr' : '1fr',
+                        gap: '12px',
+                    }}>
+                        {currentQuestion.options.map((option) => {
+                            const isSelected = isMultiple
+                                ? (currentAnswerValue || []).includes(option.value)
+                                : currentAnswerValue === option.value;
+
+                            return (
+                                <button
+                                    key={option.value}
+                                    onClick={() => handleAnswer(option.value)}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        padding: '16px 20px',
+                                        backgroundColor: isSelected ? '#f0f7fc' : '#fff',
+                                        border: `2px solid ${isSelected ? '#1a365d' : '#e5e7eb'}`,
+                                        borderRadius: '12px',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.15s ease',
+                                        textAlign: 'right',
+                                    }}
+                                >
+                                    <span style={{ fontSize: '24px' }}>{option.emoji}</span>
+                                    <span style={{
+                                        fontSize: '16px',
+                                        color: isSelected ? '#1a365d' : '#374151',
+                                        fontWeight: isSelected ? '600' : '400',
+                                    }}>
+                                        {option.label}
+                                    </span>
+                                    {isSelected && (
+                                        <div style={{ marginRight: 'auto' }}>
+                                            <Icons.Check size={20} style={{ color: '#1a365d' }} />
+                                        </div>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <button
+                        onClick={handleBack}
+                        disabled={currentQuestionIndex === 0}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '12px 20px',
+                            backgroundColor: 'transparent',
+                            color: currentQuestionIndex === 0 ? '#d1d5db' : '#6b7280',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer',
+                            fontSize: '15px',
+                        }}
+                    >
+                        <Icons.ArrowLeft size={18} />
+                        הקודם
+                    </button>
+
+                    {isMultiple && (
+                        <button
+                            onClick={handleNext}
+                            style={{
+                                padding: '12px 32px',
+                                backgroundColor: '#1a365d',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '15px',
+                                fontWeight: '500',
+                            }}
+                        >
+                            המשך
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    // Complete Screen
+    if (stage === 'complete') {
+        return (
+            <div style={{ maxWidth: '500px', margin: '0 auto', textAlign: 'center' }}>
+                <div style={{
+                    width: '100px',
+                    height: '100px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 24px',
+                    color: '#fff',
+                }}>
+                    <Icons.Check size={50} />
+                </div>
+
+                <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#1e293b', marginBottom: '16px' }}>
+                    תודה רבה!
+                </h2>
+                <p style={{ fontSize: '16px', color: '#6b7280', lineHeight: '1.7', marginBottom: '32px' }}>
+                    התשובות שלך התקבלו בהצלחה.
+                    <br />
+                    המידע הזה יעזור לנו לזהות הזדמנויות לשיפור ולחסוך לך זמן בעבודה היומיומית.
+                </p>
+
+                <div style={{
+                    backgroundColor: '#f0fdf4',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    marginBottom: '32px',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#059669' }}>
+                        <Icons.Shield size={20} />
+                        <span style={{ fontWeight: '500' }}>התשובות נשמרות באופן אנונימי</span>
+                    </div>
+                </div>
+
+                <button
+                    onClick={resetSurvey}
+                    style={{
+                        padding: '12px 32px',
+                        backgroundColor: '#f3f4f6',
+                        color: '#374151',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                    }}
+                >
+                    מילוי שאלון נוסף
+                </button>
+            </div>
+        );
+    }
+
+    return null;
+};
+
 const GanttChart = () => {
     const weeks = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -1397,6 +1975,12 @@ const AutomationDashboard = () => {
                     בנק רעיונות
                 </button>
                 <button
+                    style={{...styles.tab, ...(activeTab === 'interview' ? styles.tabActive : {})}}
+                    onClick={() => setActiveTab('interview')}
+                >
+                    שאלון עובדים
+                </button>
+                <button
                     style={{...styles.tab, ...(activeTab === 'gantt' ? styles.tabActive : {})}}
                     onClick={() => setActiveTab('gantt')}
                 >
@@ -1452,6 +2036,12 @@ const AutomationDashboard = () => {
                         selectedIdeas={selectedIdeas}
                         onToggleIdea={handleToggleIdea}
                     />
+                </section>
+            )}
+
+            {activeTab === 'interview' && (
+                <section style={styles.section}>
+                    <EmployeeInterviewModule />
                 </section>
             )}
 
