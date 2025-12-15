@@ -128,6 +128,91 @@ const Icons = {
             <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>
         </svg>
     ),
+    Target: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+        </svg>
+    ),
+    Users: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+    ),
+    Database: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>
+        </svg>
+    ),
+    Shield: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+        </svg>
+    ),
+    TrendingUp: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+        </svg>
+    ),
+    Clock: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+    ),
+    ArrowLeft: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+        </svg>
+    ),
+    ArrowDown: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+        </svg>
+    ),
+    Zap: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+    ),
+    Eye: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+    ),
+    MessageCircle: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+        </svg>
+    ),
+    Layers: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+        </svg>
+    ),
+    CheckCircle: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+    ),
+    BarChart: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/>
+        </svg>
+    ),
+    Repeat: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>
+        </svg>
+    ),
+    Folder: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+        </svg>
+    ),
+    Lock: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+    ),
 };
 
 // Data
@@ -820,6 +905,361 @@ const AutomationIdeasBank = ({ selectedIdeas, onToggleIdea }) => {
     );
 };
 
+// Owner Explanation Module - Main Module
+const OwnerExplanationModule = () => {
+    const [activeStep, setActiveStep] = useState(null);
+
+    const journeySteps = [
+        {
+            id: 1,
+            title: 'שיחת פתיחה',
+            subtitle: 'פגישה אחת של שעה',
+            icon: 'MessageCircle',
+            color: '#1a365d',
+            description: 'נשב יחד ותספר לי על האתגרים היומיומיים. אני אקשיב, אשאל שאלות, ואבין מה באמת גוזל זמן.',
+            ownerRole: 'לספר על הכאבים והאתגרים',
+            alonRole: 'להקשיב, לתעד, ולזהות הזדמנויות',
+        },
+        {
+            id: 2,
+            title: 'שאלון לעובדים',
+            subtitle: '5 דקות לכל עובד',
+            icon: 'Users',
+            color: '#234876',
+            description: 'כל עובד ימלא שאלון קצר וממוקד. השאלון מותאם למחלקה שלו ולא ייקח יותר מ-5 דקות.',
+            ownerRole: 'לעודד את העובדים למלא',
+            alonRole: 'להפיץ, לאסוף ולנתח את התוצאות',
+        },
+        {
+            id: 3,
+            title: 'ניתוח ממצאים',
+            subtitle: 'מאחורי הקלעים',
+            icon: 'BarChart',
+            color: '#2d5a8f',
+            description: 'אני מנתח את כל המידע ומזהה איפה יש בזבוז זמן. מחפש דפוסים חוזרים ופעולות שחוזרות על עצמן.',
+            ownerRole: 'להיות זמין לשאלות הבהרה',
+            alonRole: 'לעבד נתונים ולהכין המלצות',
+        },
+        {
+            id: 4,
+            title: 'הצגת תוכנית',
+            subtitle: 'פגישה אחת של שעה',
+            icon: 'Target',
+            color: '#4a7ab5',
+            description: 'אציג לך בדיוק מה אפשר לשפר, כמה זמן זה ייקח, ומה העדיפויות. תוכל להחליט מה מתאים לך.',
+            ownerRole: 'לבחור מה לקדם ומה לדחות',
+            alonRole: 'להציג אפשרויות ולהמליץ',
+        },
+        {
+            id: 5,
+            title: 'הטמעה הדרגתית',
+            subtitle: 'צעד אחר צעד',
+            icon: 'Rocket',
+            color: '#7ba3d0',
+            description: 'מתחילים ממחלקה אחת, מוודאים שזה עובד, ורק אז מרחיבים. בלי הפתעות, בלי סיכונים.',
+            ownerRole: 'לתת משוב ולאשר התקדמות',
+            alonRole: 'לבנות, להטמיע ולתמוך',
+        },
+    ];
+
+    const dataManagement = [
+        {
+            icon: 'Folder',
+            title: 'תיקיית פרויקט משותפת',
+            description: 'כל המסמכים, הסיכומים והתוצרים במקום אחד מסודר שתמיד נגיש לך',
+        },
+        {
+            icon: 'FileText',
+            title: 'דוחות שבועיים',
+            description: 'סיכום קצר של מה נעשה, מה בתהליך, ומה הצעד הבא',
+        },
+        {
+            icon: 'Lock',
+            title: 'המידע נשאר בחברה',
+            description: 'כל הנתונים והתוצרים שייכים לקוראל. שום דבר לא יוצא החוצה',
+        },
+    ];
+
+    const benefits = [
+        { icon: 'Clock', text: 'חיסכון בזמן על פעולות חוזרות' },
+        { icon: 'Shield', text: 'פחות טעויות אנוש' },
+        { icon: 'Eye', text: 'שקיפות ובקרה על תהליכים' },
+        { icon: 'TrendingUp', text: 'מידע זמין לקבלת החלטות' },
+    ];
+
+    return (
+        <div style={{ padding: '0' }}>
+            {/* Hero Section */}
+            <div style={{
+                background: 'linear-gradient(135deg, #0f2942 0%, #1a365d 100%)',
+                borderRadius: '16px',
+                padding: '40px',
+                marginBottom: '32px',
+                color: '#fff',
+            }}>
+                <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '16px' }}>
+                    איך התוכנית עובדת?
+                </h2>
+                <p style={{ fontSize: '18px', opacity: 0.9, maxWidth: '700px', lineHeight: '1.7' }}>
+                    בלי סיסמאות ובלי הבטחות גדולות. תהליך פשוט ומובנה שמתחיל בהבנה של מה קורה היום,
+                    וממשיך לשיפורים קונקרטיים שאפשר למדוד.
+                </p>
+            </div>
+
+            {/* Journey Steps */}
+            <div style={{ marginBottom: '48px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Icons.Layers size={24} />
+                    המסע שלנו - צעד אחר צעד
+                </h3>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {journeySteps.map((step, index) => {
+                        const IconComponent = Icons[step.icon];
+                        const isActive = activeStep === step.id;
+
+                        return (
+                            <div
+                                key={step.id}
+                                onClick={() => setActiveStep(isActive ? null : step.id)}
+                                style={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '12px',
+                                    border: isActive ? `2px solid ${step.color}` : '1px solid #e5e7eb',
+                                    overflow: 'hidden',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
+                                }}
+                            >
+                                <div style={{
+                                    padding: '20px 24px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '20px',
+                                }}>
+                                    {/* Step Number & Icon */}
+                                    <div style={{
+                                        width: '56px',
+                                        height: '56px',
+                                        borderRadius: '12px',
+                                        backgroundColor: step.color,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#fff',
+                                        flexShrink: 0,
+                                    }}>
+                                        {IconComponent && <IconComponent size={28} />}
+                                    </div>
+
+                                    {/* Step Info */}
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+                                            <span style={{
+                                                fontSize: '12px',
+                                                fontWeight: '600',
+                                                color: step.color,
+                                                backgroundColor: `${step.color}15`,
+                                                padding: '4px 10px',
+                                                borderRadius: '12px',
+                                            }}>
+                                                שלב {step.id}
+                                            </span>
+                                            <span style={{ fontSize: '14px', color: '#6b7280' }}>
+                                                {step.subtitle}
+                                            </span>
+                                        </div>
+                                        <h4 style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>
+                                            {step.title}
+                                        </h4>
+                                    </div>
+
+                                    {/* Arrow */}
+                                    <div style={{ color: '#9ca3af' }}>
+                                        {isActive ? <Icons.ChevronUp size={24} /> : <Icons.ChevronDown size={24} />}
+                                    </div>
+                                </div>
+
+                                {/* Expanded Content */}
+                                {isActive && (
+                                    <div style={{
+                                        padding: '0 24px 24px',
+                                        borderTop: '1px solid #f3f4f6',
+                                    }}>
+                                        <p style={{
+                                            fontSize: '15px',
+                                            color: '#4b5563',
+                                            lineHeight: '1.7',
+                                            padding: '20px 0',
+                                            margin: 0,
+                                        }}>
+                                            {step.description}
+                                        </p>
+
+                                        <div style={{
+                                            display: 'grid',
+                                            gridTemplateColumns: '1fr 1fr',
+                                            gap: '16px',
+                                        }}>
+                                            <div style={{
+                                                backgroundColor: '#f0f7fc',
+                                                borderRadius: '10px',
+                                                padding: '16px',
+                                            }}>
+                                                <div style={{ fontSize: '12px', fontWeight: '600', color: '#1a365d', marginBottom: '8px' }}>
+                                                    מה נדרש ממך:
+                                                </div>
+                                                <div style={{ fontSize: '14px', color: '#4b5563' }}>
+                                                    {step.ownerRole}
+                                                </div>
+                                            </div>
+                                            <div style={{
+                                                backgroundColor: '#f8fafc',
+                                                borderRadius: '10px',
+                                                padding: '16px',
+                                            }}>
+                                                <div style={{ fontSize: '12px', fontWeight: '600', color: '#6b7280', marginBottom: '8px' }}>
+                                                    מה אני עושה:
+                                                </div>
+                                                <div style={{ fontSize: '14px', color: '#4b5563' }}>
+                                                    {step.alonRole}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Data Management Section */}
+            <div style={{ marginBottom: '48px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Icons.Database size={24} />
+                    איפה נשמר כל המידע?
+                </h3>
+
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '20px',
+                }}>
+                    {dataManagement.map((item, index) => {
+                        const IconComponent = Icons[item.icon];
+                        return (
+                            <div
+                                key={index}
+                                style={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '12px',
+                                    border: '1px solid #e5e7eb',
+                                    padding: '24px',
+                                }}
+                            >
+                                <div style={{
+                                    width: '48px',
+                                    height: '48px',
+                                    borderRadius: '10px',
+                                    backgroundColor: '#e1edf7',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#1a365d',
+                                    marginBottom: '16px',
+                                }}>
+                                    {IconComponent && <IconComponent size={24} />}
+                                </div>
+                                <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>
+                                    {item.title}
+                                </h4>
+                                <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: '1.6', margin: 0 }}>
+                                    {item.description}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Benefits Section */}
+            <div style={{
+                backgroundColor: '#fff',
+                borderRadius: '16px',
+                border: '1px solid #e5e7eb',
+                padding: '32px',
+            }}>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Icons.Target size={24} />
+                    מה נשיג בסוף התהליך?
+                </h3>
+
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                    gap: '16px',
+                }}>
+                    {benefits.map((benefit, index) => {
+                        const IconComponent = Icons[benefit.icon];
+                        return (
+                            <div
+                                key={index}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '16px',
+                                    padding: '16px',
+                                    backgroundColor: '#f8fafc',
+                                    borderRadius: '10px',
+                                }}
+                            >
+                                <div style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '8px',
+                                    backgroundColor: '#1a365d',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#fff',
+                                }}>
+                                    {IconComponent && <IconComponent size={20} />}
+                                </div>
+                                <span style={{ fontSize: '15px', color: '#374151', fontWeight: '500' }}>
+                                    {benefit.text}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Bottom Note */}
+                <div style={{
+                    marginTop: '24px',
+                    padding: '20px',
+                    backgroundColor: '#f0f7fc',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                }}>
+                    <Icons.CheckCircle size={24} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
+                    <div>
+                        <div style={{ fontSize: '15px', fontWeight: '600', color: '#1e293b', marginBottom: '4px' }}>
+                            עיקרון מנחה: להתקדם בבטחה
+                        </div>
+                        <div style={{ fontSize: '14px', color: '#4b5563', lineHeight: '1.6' }}>
+                            כל שלב מסתיים באישור שלך לפני שממשיכים הלאה. אתה תמיד בשליטה על הקצב והכיוון.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const GanttChart = () => {
     const weeks = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -867,7 +1307,7 @@ const GanttChart = () => {
 
 // Main Dashboard Component
 const AutomationDashboard = () => {
-    const [activeTab, setActiveTab] = useState('timeline');
+    const [activeTab, setActiveTab] = useState('overview');
     const [expandedPhase, setExpandedPhase] = useState(1);
     const [priorities, setPriorities] = useState({});
     const [selectedIdeas, setSelectedIdeas] = useState({});
@@ -931,7 +1371,13 @@ const AutomationDashboard = () => {
                 </div>
             </div>
 
-            <div style={styles.tabs}>
+            <div style={{...styles.tabs, flexWrap: 'wrap'}}>
+                <button
+                    style={{...styles.tab, ...(activeTab === 'overview' ? styles.tabActive : {})}}
+                    onClick={() => setActiveTab('overview')}
+                >
+                    סקירה כללית
+                </button>
                 <button
                     style={{...styles.tab, ...(activeTab === 'timeline' ? styles.tabActive : {})}}
                     onClick={() => setActiveTab('timeline')}
@@ -957,6 +1403,12 @@ const AutomationDashboard = () => {
                     ציר זמן
                 </button>
             </div>
+
+            {activeTab === 'overview' && (
+                <section style={styles.section}>
+                    <OwnerExplanationModule />
+                </section>
+            )}
 
             {activeTab === 'timeline' && (
                 <section style={styles.section}>
