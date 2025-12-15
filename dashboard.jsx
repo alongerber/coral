@@ -905,354 +905,294 @@ const AutomationIdeasBank = ({ selectedIdeas, onToggleIdea }) => {
     );
 };
 
-// Owner Explanation Module - Main Module
+// Owner Explanation Module - Main Module (Visual & System-focused)
 const OwnerExplanationModule = () => {
-    const [activeStep, setActiveStep] = useState(null);
-
-    const journeySteps = [
-        {
-            id: 1,
-            title: 'שיחת פתיחה',
-            subtitle: 'פגישה אחת של שעה',
-            icon: 'MessageCircle',
-            color: '#1a365d',
-            description: 'נשב יחד ותספר לי על האתגרים היומיומיים. אני אקשיב, אשאל שאלות, ואבין מה באמת גוזל זמן.',
-            ownerRole: 'לספר על הכאבים והאתגרים',
-            alonRole: 'להקשיב, לתעד, ולזהות הזדמנויות',
-        },
-        {
-            id: 2,
-            title: 'שאלון לעובדים',
-            subtitle: '5 דקות לכל עובד',
-            icon: 'Users',
-            color: '#234876',
-            description: 'כל עובד ימלא שאלון קצר וממוקד. השאלון מותאם למחלקה שלו ולא ייקח יותר מ-5 דקות.',
-            ownerRole: 'לעודד את העובדים למלא',
-            alonRole: 'להפיץ, לאסוף ולנתח את התוצאות',
-        },
-        {
-            id: 3,
-            title: 'ניתוח ממצאים',
-            subtitle: 'מאחורי הקלעים',
-            icon: 'BarChart',
-            color: '#2d5a8f',
-            description: 'אני מנתח את כל המידע ומזהה איפה יש בזבוז זמן. מחפש דפוסים חוזרים ופעולות שחוזרות על עצמן.',
-            ownerRole: 'להיות זמין לשאלות הבהרה',
-            alonRole: 'לעבד נתונים ולהכין המלצות',
-        },
-        {
-            id: 4,
-            title: 'הצגת תוכנית',
-            subtitle: 'פגישה אחת של שעה',
-            icon: 'Target',
-            color: '#4a7ab5',
-            description: 'אציג לך בדיוק מה אפשר לשפר, כמה זמן זה ייקח, ומה העדיפויות. תוכל להחליט מה מתאים לך.',
-            ownerRole: 'לבחור מה לקדם ומה לדחות',
-            alonRole: 'להציג אפשרויות ולהמליץ',
-        },
-        {
-            id: 5,
-            title: 'הטמעה הדרגתית',
-            subtitle: 'צעד אחר צעד',
-            icon: 'Rocket',
-            color: '#7ba3d0',
-            description: 'מתחילים ממחלקה אחת, מוודאים שזה עובד, ורק אז מרחיבים. בלי הפתעות, בלי סיכונים.',
-            ownerRole: 'לתת משוב ולאשר התקדמות',
-            alonRole: 'לבנות, להטמיע ולתמוך',
-        },
-    ];
-
-    const dataManagement = [
-        {
-            icon: 'Folder',
-            title: 'תיקיית פרויקט משותפת',
-            description: 'כל המסמכים, הסיכומים והתוצרים במקום אחד מסודר שתמיד נגיש לך',
-        },
-        {
-            icon: 'FileText',
-            title: 'דוחות שבועיים',
-            description: 'סיכום קצר של מה נעשה, מה בתהליך, ומה הצעד הבא',
-        },
-        {
-            icon: 'Lock',
-            title: 'המידע נשאר בחברה',
-            description: 'כל הנתונים והתוצרים שייכים לקוראל. שום דבר לא יוצא החוצה',
-        },
-    ];
-
-    const benefits = [
-        { icon: 'Clock', text: 'חיסכון בזמן על פעולות חוזרות' },
-        { icon: 'Shield', text: 'פחות טעויות אנוש' },
-        { icon: 'Eye', text: 'שקיפות ובקרה על תהליכים' },
-        { icon: 'TrendingUp', text: 'מידע זמין לקבלת החלטות' },
-    ];
-
     return (
         <div style={{ padding: '0' }}>
-            {/* Hero Section */}
+            {/* Visual Flow Header */}
             <div style={{
                 background: 'linear-gradient(135deg, #0f2942 0%, #1a365d 100%)',
                 borderRadius: '16px',
-                padding: '40px',
+                padding: '32px 40px',
                 marginBottom: '32px',
                 color: '#fff',
             }}>
-                <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '16px' }}>
-                    איך התוכנית עובדת?
+                <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '32px', textAlign: 'center' }}>
+                    התהליך בשלושה שלבים
                 </h2>
-                <p style={{ fontSize: '18px', opacity: 0.9, maxWidth: '700px', lineHeight: '1.7' }}>
-                    בלי סיסמאות ובלי הבטחות גדולות. תהליך פשוט ומובנה שמתחיל בהבנה של מה קורה היום,
-                    וממשיך לשיפורים קונקרטיים שאפשר למדוד.
-                </p>
-            </div>
 
-            {/* Journey Steps */}
-            <div style={{ marginBottom: '48px' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Icons.Layers size={24} />
-                    המסע שלנו - צעד אחר צעד
-                </h3>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {journeySteps.map((step, index) => {
-                        const IconComponent = Icons[step.icon];
-                        const isActive = activeStep === step.id;
-
+                {/* Visual Flow - 3 Steps */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    flexWrap: 'wrap',
+                }}>
+                    {[
+                        { icon: 'Users', label: 'עובדים ממלאים שאלון', sublabel: '5 דקות לכל אחד' },
+                        { icon: 'ArrowLeft', isArrow: true },
+                        { icon: 'Database', label: 'המערכת מנתחת', sublabel: 'מזהה דפוסים חוזרים' },
+                        { icon: 'ArrowLeft', isArrow: true },
+                        { icon: 'Target', label: 'תוכנית מוכנה', sublabel: 'מה לשפר ובאיזה סדר' },
+                    ].map((item, index) => {
+                        const IconComponent = Icons[item.icon];
+                        if (item.isArrow) {
+                            return (
+                                <div key={index} style={{ color: 'rgba(255,255,255,0.4)', padding: '0 8px' }}>
+                                    <Icons.ArrowLeft size={24} />
+                                </div>
+                            );
+                        }
                         return (
-                            <div
-                                key={step.id}
-                                onClick={() => setActiveStep(isActive ? null : step.id)}
-                                style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '12px',
-                                    border: isActive ? `2px solid ${step.color}` : '1px solid #e5e7eb',
-                                    overflow: 'hidden',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
-                                }}
-                            >
+                            <div key={index} style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '12px',
+                                padding: '24px',
+                                backgroundColor: 'rgba(255,255,255,0.1)',
+                                borderRadius: '16px',
+                                minWidth: '180px',
+                            }}>
                                 <div style={{
-                                    padding: '20px 24px',
+                                    width: '64px',
+                                    height: '64px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'rgba(255,255,255,0.2)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '20px',
+                                    justifyContent: 'center',
                                 }}>
-                                    {/* Step Number & Icon */}
+                                    {IconComponent && <IconComponent size={32} />}
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px' }}>{item.label}</div>
+                                    <div style={{ fontSize: '14px', opacity: 0.7 }}>{item.sublabel}</div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Smart Analysis Section - The Core Value */}
+            <div style={{
+                backgroundColor: '#fff',
+                borderRadius: '16px',
+                border: '2px solid #1a365d',
+                padding: '32px',
+                marginBottom: '24px',
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                    <div style={{
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '14px',
+                        background: 'linear-gradient(135deg, #1a365d 0%, #2d5a8f 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#fff',
+                    }}>
+                        <Icons.Zap size={28} />
+                    </div>
+                    <div>
+                        <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#1e293b', marginBottom: '4px' }}>
+                            זיהוי אוטומטי של צווארי בקבוק
+                        </h3>
+                        <p style={{ fontSize: '15px', color: '#6b7280', margin: 0 }}>
+                            המערכת מנתחת את כל התשובות ומזהה היכן יש תלונות חוזרות
+                        </p>
+                    </div>
+                </div>
+
+                {/* Visual Priority Example */}
+                <div style={{
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '12px',
+                    padding: '24px',
+                    marginBottom: '20px',
+                }}>
+                    <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '16px', fontWeight: '500' }}>
+                        דוגמה: כך המערכת מתעדפת לפי כמות התלונות
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {[
+                            { label: 'העתקת נתונים ידנית', width: '90%', color: '#dc2626' },
+                            { label: 'חיפוש מידע במערכות', width: '75%', color: '#dc2626' },
+                            { label: 'הכנת דוחות', width: '55%', color: '#d97706' },
+                            { label: 'המתנה לאישורים', width: '30%', color: '#059669' },
+                        ].map((item, index) => (
+                            <div key={index}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                                    <span style={{ fontSize: '14px', color: '#374151', fontWeight: '500' }}>{item.label}</span>
+                                </div>
+                                <div style={{
+                                    height: '24px',
+                                    backgroundColor: '#e5e7eb',
+                                    borderRadius: '6px',
+                                    overflow: 'hidden',
+                                }}>
                                     <div style={{
-                                        width: '56px',
-                                        height: '56px',
-                                        borderRadius: '12px',
-                                        backgroundColor: step.color,
+                                        height: '100%',
+                                        width: item.width,
+                                        backgroundColor: item.color,
+                                        borderRadius: '6px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-end',
+                                        paddingLeft: '12px',
+                                    }}>
+                                        <span style={{ fontSize: '12px', color: '#fff', fontWeight: '600' }}>
+                                            {item.width === '90%' ? 'עדיפות גבוהה' : item.width === '75%' ? 'עדיפות גבוהה' : item.width === '55%' ? 'עדיפות בינונית' : 'עדיפות נמוכה'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div style={{
+                    padding: '16px 20px',
+                    backgroundColor: '#f0f7fc',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                }}>
+                    <Icons.CheckCircle size={20} style={{ color: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '14px', color: '#374151' }}>
+                        <strong>ככל שיותר עובדים מציינים בעיה - היא עולה בסדר העדיפויות.</strong> כך המיקוד הוא במה שבאמת כואב.
+                    </span>
+                </div>
+            </div>
+
+            {/* Process Steps - Compact Cards */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '16px',
+                marginBottom: '24px',
+            }}>
+                {[
+                    { step: 1, title: 'איסוף', desc: 'שאלון 5 דקות לכל עובד', icon: 'ClipboardList', color: '#1a365d' },
+                    { step: 2, title: 'ניתוח', desc: 'זיהוי דפוסים ותעדוף', icon: 'BarChart', color: '#234876' },
+                    { step: 3, title: 'תוכנית', desc: 'רשימה מדורגת לפי השפעה', icon: 'Target', color: '#2d5a8f' },
+                    { step: 4, title: 'הטמעה', desc: 'מהקל למורכב בהדרגה', icon: 'Rocket', color: '#4a7ab5' },
+                ].map((item) => {
+                    const IconComponent = Icons[item.icon];
+                    return (
+                        <div key={item.step} style={{
+                            backgroundColor: '#fff',
+                            borderRadius: '12px',
+                            border: '1px solid #e5e7eb',
+                            padding: '20px',
+                            textAlign: 'center',
+                        }}>
+                            <div style={{
+                                width: '48px',
+                                height: '48px',
+                                borderRadius: '12px',
+                                backgroundColor: item.color,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#fff',
+                                margin: '0 auto 12px',
+                            }}>
+                                {IconComponent && <IconComponent size={24} />}
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px' }}>שלב {item.step}</div>
+                            <div style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '6px' }}>{item.title}</div>
+                            <div style={{ fontSize: '13px', color: '#6b7280', lineHeight: '1.4' }}>{item.desc}</div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Bottom Row - Data & Outcomes */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '24px',
+            }}>
+                {/* Data Management */}
+                <div style={{
+                    backgroundColor: '#fff',
+                    borderRadius: '16px',
+                    border: '1px solid #e5e7eb',
+                    padding: '24px',
+                }}>
+                    <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1a365d', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <Icons.Database size={20} />
+                        ניהול המידע
+                    </h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {[
+                            { icon: 'Folder', text: 'הכל מרוכז במקום אחד' },
+                            { icon: 'Lock', text: 'נשאר בתוך החברה' },
+                            { icon: 'FileText', text: 'דוחות ברורים ופשוטים' },
+                        ].map((item, index) => {
+                            const IconComponent = Icons[item.icon];
+                            return (
+                                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <div style={{
+                                        width: '32px',
+                                        height: '32px',
+                                        borderRadius: '8px',
+                                        backgroundColor: '#e1edf7',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#1a365d',
+                                    }}>
+                                        {IconComponent && <IconComponent size={16} />}
+                                    </div>
+                                    <span style={{ fontSize: '14px', color: '#374151' }}>{item.text}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Expected Outcomes */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #f0f7fc 0%, #e1edf7 100%)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                }}>
+                    <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1a365d', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <Icons.Target size={20} />
+                        מה נקבל
+                    </h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {[
+                            { icon: 'Clock', text: 'זמן פנוי לעבודה אמיתית' },
+                            { icon: 'Shield', text: 'פחות טעויות' },
+                            { icon: 'Eye', text: 'שקיפות על מה קורה' },
+                            { icon: 'TrendingUp', text: 'נתונים לקבלת החלטות' },
+                        ].map((item, index) => {
+                            const IconComponent = Icons[item.icon];
+                            return (
+                                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <div style={{
+                                        width: '32px',
+                                        height: '32px',
+                                        borderRadius: '8px',
+                                        backgroundColor: '#1a365d',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         color: '#fff',
-                                        flexShrink: 0,
                                     }}>
-                                        {IconComponent && <IconComponent size={28} />}
+                                        {IconComponent && <IconComponent size={16} />}
                                     </div>
-
-                                    {/* Step Info */}
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                                            <span style={{
-                                                fontSize: '12px',
-                                                fontWeight: '600',
-                                                color: step.color,
-                                                backgroundColor: `${step.color}15`,
-                                                padding: '4px 10px',
-                                                borderRadius: '12px',
-                                            }}>
-                                                שלב {step.id}
-                                            </span>
-                                            <span style={{ fontSize: '14px', color: '#6b7280' }}>
-                                                {step.subtitle}
-                                            </span>
-                                        </div>
-                                        <h4 style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>
-                                            {step.title}
-                                        </h4>
-                                    </div>
-
-                                    {/* Arrow */}
-                                    <div style={{ color: '#9ca3af' }}>
-                                        {isActive ? <Icons.ChevronUp size={24} /> : <Icons.ChevronDown size={24} />}
-                                    </div>
+                                    <span style={{ fontSize: '14px', color: '#374151', fontWeight: '500' }}>{item.text}</span>
                                 </div>
-
-                                {/* Expanded Content */}
-                                {isActive && (
-                                    <div style={{
-                                        padding: '0 24px 24px',
-                                        borderTop: '1px solid #f3f4f6',
-                                    }}>
-                                        <p style={{
-                                            fontSize: '15px',
-                                            color: '#4b5563',
-                                            lineHeight: '1.7',
-                                            padding: '20px 0',
-                                            margin: 0,
-                                        }}>
-                                            {step.description}
-                                        </p>
-
-                                        <div style={{
-                                            display: 'grid',
-                                            gridTemplateColumns: '1fr 1fr',
-                                            gap: '16px',
-                                        }}>
-                                            <div style={{
-                                                backgroundColor: '#f0f7fc',
-                                                borderRadius: '10px',
-                                                padding: '16px',
-                                            }}>
-                                                <div style={{ fontSize: '12px', fontWeight: '600', color: '#1a365d', marginBottom: '8px' }}>
-                                                    מה נדרש ממך:
-                                                </div>
-                                                <div style={{ fontSize: '14px', color: '#4b5563' }}>
-                                                    {step.ownerRole}
-                                                </div>
-                                            </div>
-                                            <div style={{
-                                                backgroundColor: '#f8fafc',
-                                                borderRadius: '10px',
-                                                padding: '16px',
-                                            }}>
-                                                <div style={{ fontSize: '12px', fontWeight: '600', color: '#6b7280', marginBottom: '8px' }}>
-                                                    מה אני עושה:
-                                                </div>
-                                                <div style={{ fontSize: '14px', color: '#4b5563' }}>
-                                                    {step.alonRole}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Data Management Section */}
-            <div style={{ marginBottom: '48px' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Icons.Database size={24} />
-                    איפה נשמר כל המידע?
-                </h3>
-
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '20px',
-                }}>
-                    {dataManagement.map((item, index) => {
-                        const IconComponent = Icons[item.icon];
-                        return (
-                            <div
-                                key={index}
-                                style={{
-                                    backgroundColor: '#fff',
-                                    borderRadius: '12px',
-                                    border: '1px solid #e5e7eb',
-                                    padding: '24px',
-                                }}
-                            >
-                                <div style={{
-                                    width: '48px',
-                                    height: '48px',
-                                    borderRadius: '10px',
-                                    backgroundColor: '#e1edf7',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#1a365d',
-                                    marginBottom: '16px',
-                                }}>
-                                    {IconComponent && <IconComponent size={24} />}
-                                </div>
-                                <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>
-                                    {item.title}
-                                </h4>
-                                <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: '1.6', margin: 0 }}>
-                                    {item.description}
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Benefits Section */}
-            <div style={{
-                backgroundColor: '#fff',
-                borderRadius: '16px',
-                border: '1px solid #e5e7eb',
-                padding: '32px',
-            }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1a365d', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Icons.Target size={24} />
-                    מה נשיג בסוף התהליך?
-                </h3>
-
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                    gap: '16px',
-                }}>
-                    {benefits.map((benefit, index) => {
-                        const IconComponent = Icons[benefit.icon];
-                        return (
-                            <div
-                                key={index}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '16px',
-                                    padding: '16px',
-                                    backgroundColor: '#f8fafc',
-                                    borderRadius: '10px',
-                                }}
-                            >
-                                <div style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    borderRadius: '8px',
-                                    backgroundColor: '#1a365d',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#fff',
-                                }}>
-                                    {IconComponent && <IconComponent size={20} />}
-                                </div>
-                                <span style={{ fontSize: '15px', color: '#374151', fontWeight: '500' }}>
-                                    {benefit.text}
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* Bottom Note */}
-                <div style={{
-                    marginTop: '24px',
-                    padding: '20px',
-                    backgroundColor: '#f0f7fc',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '16px',
-                }}>
-                    <Icons.CheckCircle size={24} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
-                    <div>
-                        <div style={{ fontSize: '15px', fontWeight: '600', color: '#1e293b', marginBottom: '4px' }}>
-                            עיקרון מנחה: להתקדם בבטחה
-                        </div>
-                        <div style={{ fontSize: '14px', color: '#4b5563', lineHeight: '1.6' }}>
-                            כל שלב מסתיים באישור שלך לפני שממשיכים הלאה. אתה תמיד בשליטה על הקצב והכיוון.
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
