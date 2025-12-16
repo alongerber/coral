@@ -120,6 +120,10 @@ export default async function handler(req, res) {
 
         const verdict = JSON.parse(text);
 
+        // FORCE the values - override whatever the AI returned
+        verdict.winner = preSelectedWinner;
+        verdict.pettyScore = randomPettyScore;
+
         return res.status(200).json(verdict);
 
     } catch (error) {
