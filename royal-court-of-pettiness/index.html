@@ -135,9 +135,11 @@
 
         <!-- פלט פסק הדין -->
         <div id="verdict-output" class="mt-10 hidden bg-white border border-gray-200 rounded-2xl p-8 shadow-lg">
-            <div class="text-center mb-8">
+            <div class="text-center mb-6">
                 <i data-lucide="shield-check" class="w-12 h-12 text-[#800000] mx-auto mb-2"></i>
+                <p class="text-gray-500 text-sm mb-1">הבורר המהיר (בוא נסגור את זה)</p>
                 <h3 class="text-3xl font-extrabold text-gray-900">פסק דין מכריע - רשמי</h3>
+                <p id="caseTitleText" class="text-lg font-bold text-[#800000] mt-2"></p>
             </div>
 
             <!-- מד קטנוניות -->
@@ -199,6 +201,25 @@
                     <i data-lucide="plus" class="w-5 h-5"></i>
                     סכסוך חדש
                 </button>
+            </div>
+
+            <!-- כפתור ערעור -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <button id="appealBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition text-lg">
+                    <i data-lucide="scale" class="w-6 h-6"></i>
+                    ערעור! זה פשוט לא צודק!
+                </button>
+                <p class="text-center text-gray-400 text-sm mt-2">הצד שהפסיד יכול לערער על פסק הדין</p>
+            </div>
+
+            <!-- תגובת ערעור -->
+            <div id="appealResponse" class="hidden mt-6 bg-orange-50 border-2 border-orange-300 rounded-xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="gavel" class="w-6 h-6 text-orange-600"></i>
+                    <h4 class="text-lg font-bold text-orange-800">תשובת בית הדין לערעור</h4>
+                </div>
+                <p id="appealText" class="text-gray-700 leading-relaxed"></p>
+                <div id="appealStatus" class="mt-3 text-center font-bold text-lg"></div>
             </div>
         </div>
 
@@ -418,6 +439,9 @@
             document.getElementById('whatsappBtn').addEventListener('click', shareToWhatsApp);
             document.getElementById('newVerdictBtn').addEventListener('click', newVerdict);
 
+            // Appeal button
+            document.getElementById('appealBtn').addEventListener('click', handleAppeal);
+
             // Close modals on backdrop click
             document.getElementById('authModal').addEventListener('click', function(e) {
                 if (e.target === this) this.classList.add('hidden');
@@ -560,12 +584,16 @@
         function displayVerdict(v) {
             lastVerdict = v;
             document.getElementById('verdict-output').classList.remove('hidden');
+            document.getElementById('caseTitleText').textContent = v.caseTitle || '';
             document.getElementById('winnerText').textContent = v.winner;
             document.getElementById('verdictText').textContent = v.verdict;
             document.getElementById('punishmentText').textContent = v.punishment;
             document.getElementById('verdict-date').textContent = new Date().toLocaleDateString('he-IL', {
                 year: 'numeric', month: 'long', day: 'numeric'
             });
+            // Hide appeal response if showing new verdict
+            document.getElementById('appealResponse').classList.add('hidden');
+            document.getElementById('appealBtn').disabled = false;
             animateGauge(v.pettyScore);
             lucide.createIcons();
             document.getElementById('verdict-output').scrollIntoView({ behavior: 'smooth' });
@@ -618,6 +646,59 @@
                 '📜 ' + lastVerdict.verdict + '\n\n' +
                 '⚠️ העונש: ' + lastVerdict.punishment;
             window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+        }
+
+        async function handleAppeal() {
+            if (!lastVerdict) return;
+
+            var appealBtn = document.getElementById('appealBtn');
+            var originalText = appealBtn.innerHTML;
+            appealBtn.disabled = true;
+            appealBtn.innerHTML = '<svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> שופט הערעורים מעיין...';
+
+            try {
+                var loserSide = lastVerdict.winner === 'צד א' ? 'צד ב' : 'צד א';
+
+                var response = await fetch('/api/appeal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        originalVerdict: lastVerdict.verdict,
+                        winner: lastVerdict.winner,
+                        loserSide: loserSide
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Appeal failed');
+                }
+
+                var result = await response.json();
+
+                document.getElementById('appealText').textContent = result.response;
+                var statusEl = document.getElementById('appealStatus');
+                if (result.accepted) {
+                    statusEl.textContent = '✅ הערעור התקבל (חלקית)';
+                    statusEl.className = 'mt-3 text-center font-bold text-lg text-green-600';
+                } else {
+                    statusEl.textContent = '❌ הערעור נדחה';
+                    statusEl.className = 'mt-3 text-center font-bold text-lg text-red-600';
+                }
+
+                document.getElementById('appealResponse').classList.remove('hidden');
+                lucide.createIcons();
+                document.getElementById('appealResponse').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (e) {
+                console.error(e);
+                showError('שגיאה בהגשת הערעור. נסה שוב.');
+                appealBtn.disabled = false;
+                appealBtn.innerHTML = originalText;
+                return;
+            }
+
+            appealBtn.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i> הערעור הוגש';
+            lucide.createIcons();
         }
     </script>
 </body>
