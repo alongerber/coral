@@ -300,10 +300,6 @@
     </script>
 
     <script>
-        // Gemini API
-        var GEMINI_API_KEY = 'AIzaSyAzks62M8qyLefTZ2ovuPGmItfP26GcLIk';
-        var GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-
         // State
         var currentUser = null;
         var userCredits = 4;
@@ -542,38 +538,23 @@
         }
 
         async function getVerdict(context, sideA, sideB) {
-            var contextHebrew = contextLabels[context] || 'כללי';
-
-            var prompt = 'אתה שופט מלכותי סרקסטי ומצחיק בבית הדין לקטנוניות. תפקידך לשפוט סכסוכים קטנוניים בצורה הומוריסטית.\n\n' +
-                'הקשר: ' + contextHebrew + '\n\n' +
-                'צד א טוען: ' + sideA + '\n\n' +
-                'צד ב טוען: ' + sideB + '\n\n' +
-                'החזר תשובה בפורמט JSON בלבד (ללא markdown, ללא backticks, רק JSON טהור):\n' +
-                '{"winner": "צד א" או "צד ב" או "שניהם צודקים" או "שניהם טועים", "pettyScore": מספר 0-100, "verdict": "פסק דין סרקסטי ומצחיק בעברית 3-5 משפטים", "punishment": "עונש יצירתי ומצחיק 2-3 משפטים"}\n\n' +
-                'היה סרקסטי ומצחיק. התייחס לפרטים הספציפיים. העונש צריך להיות יצירתי.';
-
-            var response = await fetch(GEMINI_API_URL + '?key=' + GEMINI_API_KEY, {
+            // קריאה לשרת (API key מוגן!)
+            var response = await fetch('/api/judge', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 1024 }
+                    context: context,
+                    sideA: sideA,
+                    sideB: sideB
                 })
             });
 
             if (!response.ok) {
-                throw new Error('API request failed: ' + response.status);
+                var errorData = await response.json().catch(function() { return {}; });
+                throw new Error(errorData.error || 'API request failed: ' + response.status);
             }
 
-            var data = await response.json();
-            var txt = data.candidates[0].content.parts[0].text.trim();
-
-            // Remove markdown code blocks if present
-            if (txt.startsWith('```')) {
-                txt = txt.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
-            }
-
-            return JSON.parse(txt);
+            return await response.json();
         }
 
         function displayVerdict(v) {

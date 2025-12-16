@@ -1,0 +1,100 @@
+export default async function handler(req, res) {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+    if (!GEMINI_API_KEY) {
+        return res.status(500).json({ error: 'API key not configured' });
+    }
+
+    try {
+        const { context, sideA, sideB } = req.body;
+
+        if (!sideA || !sideB) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const contextLabels = {
+            couple: 'זוג',
+            roommates: 'שותפים לדירה',
+            family: 'משפחה',
+            work: 'עבודה'
+        };
+        const contextHebrew = contextLabels[context] || 'כללי';
+
+        const prompt = `אתה שופט מלכותי סרקסטי ומצחיק בבית הדין לקטנוניות. תפקידך לשפוט סכסוכים קטנוניים בצורה הומוריסטית.
+
+הקשר: ${contextHebrew}
+
+צד א טוען: ${sideA}
+
+צד ב טוען: ${sideB}
+
+החזר תשובה בפורמט JSON בלבד (ללא markdown, ללא backticks, רק JSON טהור):
+{"winner": "צד א" או "צד ב" או "שניהם צודקים" או "שניהם טועים", "pettyScore": מספר 0-100, "verdict": "פסק דין סרקסטי ומצחיק בעברית 3-5 משפטים", "punishment": "עונש יצירתי ומצחיק 2-3 משפטים"}
+
+היה סרקסטי ומצחיק. התייחס לפרטים הספציפיים. העונש צריך להיות יצירתי.`;
+
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.9,
+                        maxOutputTokens: 1024
+                    }
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Gemini API error:', response.status, errorText);
+            return res.status(response.status).json({
+                error: 'AI service error',
+                details: response.status
+            });
+        }
+
+        const data = await response.json();
+
+        // Extract and parse the response
+        let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!text) {
+            return res.status(500).json({ error: 'No response from AI' });
+        }
+
+        // Clean up markdown if present
+        text = text.trim();
+        if (text.startsWith('```')) {
+            text = text.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+        }
+
+        const verdict = JSON.parse(text);
+
+        return res.status(200).json(verdict);
+
+    } catch (error) {
+        console.error('Server error:', error);
+        return res.status(500).json({
+            error: 'Server error',
+            message: error.message
+        });
+    }
+}
